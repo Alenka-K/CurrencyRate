@@ -1,6 +1,8 @@
 package com.example.currencyrate.model;
 
 
+import java.util.Objects;
+
 public class CurrencyRate {
     String currencyCode;
     float value;
@@ -37,13 +39,13 @@ public class CurrencyRate {
         CurrencyRate that = (CurrencyRate) o;
 
         if (Float.compare(that.value, value) != 0) return false;
-        return currencyCode != null ? currencyCode.equals(that.currencyCode) : that.currencyCode == null;
+        return Objects.equals(currencyCode, that.currencyCode);
     }
 
     @Override
     public int hashCode() {
         int result = currencyCode != null ? currencyCode.hashCode() : 0;
-        result = 31 * result + (value != +0.0f ? Float.floatToIntBits(value) : 0);
+        result = 31 * result + (value != 0.0f ? Float.floatToIntBits(value) : 0);
         return result;
     }
 

@@ -27,7 +27,7 @@ public class CurrencyRateParserXml implements CurrencyRateParser {
     @Override
     public List<CurrencyRate> parse(String ratesFromString) {
 
-        List rates = new ArrayList();
+        List<CurrencyRate> rates = new ArrayList<>();
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         dbf.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
         dbf.setAttribute(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");

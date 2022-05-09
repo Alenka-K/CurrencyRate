@@ -1,0 +1,12 @@
+{
+  "properties": [
+    {
+      "name": "nbu.url",
+      "type": "java.lang.String"
+    },
+    {
+      "name": "cache.size",
+      "type": "java.lang.Integer"
+    }
+  ]
+}

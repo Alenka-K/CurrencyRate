@@ -1,6 +1,5 @@
 package com.example.currencyrate;
 
-
 import org.ehcache.Cache;
 import org.ehcache.CacheManager;
 import org.ehcache.config.builders.CacheConfigurationBuilder;
@@ -29,8 +28,8 @@ public class NBUConfig {
     }
 
     @Bean
-    public Cache<LocalDate, List> currencyRateCache(@Value("${app.cache.size}") int cacheSize) {
-        return cacheManager.createCache("CurrencyRateCache",
-                CacheConfigurationBuilder.newCacheConfigurationBuilder(LocalDate.class, List.class, ResourcePoolsBuilder.heap(cacheSize)).build());
+    public Cache<LocalDate, List> currencyRateCache(@Value("${cache.size}") int cacheSize) {
+        return cacheManager.createCache("currencyRateCache",
+                CacheConfigurationBuilder.newCacheConfigurationBuilder(LocalDate.class, List.class , ResourcePoolsBuilder.heap(cacheSize)).build());
     }
 }
