@@ -4,7 +4,8 @@ import com.example.currencyrate.NBUConfig;
 import com.example.currencyrate.model.CurrencyRate;
 import com.example.currencyrate.parser.CurrencyRateParser;
 import com.example.currencyrate.requester.NBURequester;
-import org.ehcache.Cache;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -13,6 +14,7 @@ import java.util.Optional;
 
 
 @Service
+@Component
 public class NBUService implements CurrencyRateService {
 
     public static final String DATE_FORMAT = "yyyyMMdd";
@@ -22,13 +24,11 @@ public class NBUService implements CurrencyRateService {
     private final NBURequester nbuRequester;
     private final CurrencyRateParser currencyRateParser;
     private final NBUConfig nbuConfig;
-    private final Cache<LocalDate, List<CurrencyRate>> currencyRateCache;
 
-    public NBUService(NBURequester nbuRequester, CurrencyRateParser currencyRateParser, NBUConfig nbuConfig, Cache currencyRateCache) {
+    public NBUService(NBURequester nbuRequester, CurrencyRateParser currencyRateParser, NBUConfig nbuConfig) {
         this.nbuRequester = nbuRequester;
         this.currencyRateParser = currencyRateParser;
         this.nbuConfig = nbuConfig;
-        this.currencyRateCache = currencyRateCache;
     }
 
     @Override
@@ -37,14 +37,11 @@ public class NBUService implements CurrencyRateService {
     }
 
     @Override
+    @Cacheable("rate")
     public float getCurrencyRate(String currencyCode, LocalDate date) {
-        List<CurrencyRate> rates = currencyRateCache.get(date);
-        if (rates == null) {
             String urlWithParams = nbuConfig.getUrl() + DATE_FORMATTER.format(date);
             String ratesAsXml = nbuRequester.getStringFromXml(urlWithParams);
-            rates = currencyRateParser.parse(ratesAsXml);
-            currencyRateCache.put(date, rates);
-        }
+            List<CurrencyRate> rates = currencyRateParser.parse(ratesAsXml);
         Optional<CurrencyRate> rate = rates.stream().filter(currency-> currencyCode.equals(currency.getCurrencyCode())).findFirst();
         return rate.map(CurrencyRate::getValue).orElse(0.0f);
     }
