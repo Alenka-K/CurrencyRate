@@ -1,7 +1,7 @@
 package com.example.currencyrate.controllers;
 
 
-import com.example.currencyrate.services.NBUService;
+import com.example.currencyrate.services.CurrencyRateService;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,10 +12,10 @@ import java.time.LocalDate;
 @RequestMapping
 public class CurrencyRateController {
 
-    private final NBUService nbuService;
+    private final CurrencyRateService currencyRateService;
 
-    public CurrencyRateController(NBUService nbuService) {
-        this.nbuService = nbuService;
+    public CurrencyRateController(CurrencyRateService currencyRateService) {
+        this.currencyRateService = currencyRateService;
     }
 
     @GetMapping("/")
@@ -27,7 +27,7 @@ public class CurrencyRateController {
     public ResponseEntity<?> getRate(@PathVariable("currency") String currency,
                                      @DateTimeFormat(pattern = "dd-MM-yyyy") @PathVariable("date") LocalDate date){
         if (date.isAfter(LocalDate.now())) return ResponseEntity.ok("Date does not exist!");
-        float rate = nbuService.getCurrencyRate(currency, date);
+        float rate = currencyRateService.getCurrencyRate(currency, date);
         if(rate == 0.0f) return ResponseEntity.ok("Currency code does not exist!");
         return ResponseEntity.ok(rate);
         }
