@@ -1,4 +1,4 @@
-package com.example.currencyrate;
+package com.example.currencyrate.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.CacheManager;
@@ -15,16 +15,18 @@ import java.util.Arrays;
 @Configuration
 @PropertySource(value = {"classpath:application.properties"})
 @EnableCaching
-public class NBUConfig {
+public class NBUConfigImpl implements NBUConfig{
 
     @Value("${nbu.url}")
     private String url;
 
+    @Override
     public String getUrl() {
         return url;
     }
 
     @Bean
+    @Override
     public CacheManager cacheManager() {
         SimpleCacheManager cacheManager = new SimpleCacheManager();
         cacheManager.setCaches(Arrays.asList(

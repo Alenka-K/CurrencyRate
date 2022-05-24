@@ -1,6 +1,6 @@
 package com.example.currencyrate.services;
 
-import com.example.currencyrate.NBUConfig;
+import com.example.currencyrate.config.NBUConfig;
 import com.example.currencyrate.model.CurrencyRate;
 import com.example.currencyrate.parser.CurrencyRateParser;
 import com.example.currencyrate.requester.NBURequester;
