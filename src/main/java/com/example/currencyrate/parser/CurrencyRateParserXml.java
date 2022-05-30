@@ -3,7 +3,6 @@ package com.example.currencyrate.parser;
 import com.example.currencyrate.model.CurrencyRate;
 import org.apache.log4j.Logger;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -22,7 +21,6 @@ import java.util.List;
 
 
 @Service
-@Component
 public class CurrencyRateParserXml implements CurrencyRateParser {
 
     private static final Logger logger = Logger.getLogger(CurrencyRateParserXml.class);
@@ -56,7 +54,7 @@ public class CurrencyRateParserXml implements CurrencyRateParser {
                 }
             }
         } catch (ParserConfigurationException | IOException | SAXException e) {
-            logger.error(e.getStackTrace());
+            logger.error("List of currency rates was not received", e);
         }
         return rates;
     }
